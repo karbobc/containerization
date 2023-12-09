@@ -1,0 +1,10 @@
+name: Yacd-Meta CI
+
+on:
+  workflow_dispatch:
+
+jobs:
+  run-ci:
+    uses: ./.github/workflows/ci.yml
+    with:
+      name: yacd-meta
