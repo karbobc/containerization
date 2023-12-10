@@ -1,5 +1,5 @@
 # build static files
-FROM --platform=$BUILDPLATFORM node:alpine AS build
+FROM --platform=$BUILDPLATFORM node:16-alpine AS build
 ARG VUE_APP_NETEASE_API_URL=/api
 ENV VUE_APP_NETEASE_API_URL ${VUE_APP_NETEASE_API_URL}
 WORKDIR /app
