@@ -8,10 +8,22 @@ on:
         required: true
       build-args:
         type: string
-        default: ''
+        default: ""
+      s6:
+        type: boolean
+        default: false
 
 jobs:
   build-for-linux:
+    name: Build - ${{ matrix.job.name }}
+    strategy:
+      fail-fast: false
+      matrix:
+        job:
+          - { name: "amd64",   docker_platform: "linux/amd64",  s6_platform: "x86_64" }
+          - { name: "arm64v8", docker_platform: "linux/arm64",  s6_platform: "aarch64" }
+          - { name: "armv7",   docker_platform: "linux/arm/v7", s6_platform: "armhf" }
+          - { name: "i386",    docker_platform: "linux/386",    s6_platform: "i686" }
     runs-on: ubuntu-latest
     steps:
       - name: Checkout source code
@@ -55,11 +67,27 @@ jobs:
           password: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Build and push
+        if: inputs.s6 == false
         uses: docker/build-push-action@v5
         with:
           context: ${{ inputs.name }}
+          platforms: ${{ matrix.job.docker_platform }}
           build-args: ${{ inputs.build-args }}
-          platforms: linux/amd64,linux/arm/v7,linux/arm64
+          push: true
+          tags: ${{ steps.docker_meta.outputs.tags }}
+          labels: ${{ steps.docker_meta.outputs.labels }}
+          cache-from: type=gha
+          cache-to: type=gha
+
+      - name: Build and push
+        if: inputs.s6 != false
+        uses: docker/build-push-action@v5
+        with:
+          context: ${{ inputs.name }}
+          platforms: ${{ matrix.job.docker_platform }}
+          build-args: |
+            S6_ARCH=${{ matrix.job.s6_platform }}
+            ${{ inputs.build-args }}
           push: true
           tags: ${{ steps.docker_meta.outputs.tags }}
           labels: ${{ steps.docker_meta.outputs.labels }}
