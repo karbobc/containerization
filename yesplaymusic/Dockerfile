@@ -37,6 +37,6 @@ RUN set -x \
     && rm -f /var/cache/apk/*
 COPY s6-overlay /etc/s6-overlay/s6-rc.d/
 COPY ./conf /etc/nginx/conf.d/
-COPY --from=build /app/YesPlayMusic/dist /usr/share/nginx/html/
+COPY --from=build /app/yesplaymusic/dist /usr/share/nginx/html/
 
 ENTRYPOINT ["/init"]
