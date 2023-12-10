@@ -33,7 +33,9 @@ jobs:
         uses: docker/metadata-action@v5
         id: docker_meta
         with:
-          images: karbobc/${{ inputs.name }}
+          images: |
+            karbobc/${{ inputs.name }}
+            ghcr.io/karbobc/${{ inputs.name }}
           tags: |
             type=schedule,pattern={{date 'YYYY-MM-DD' tz='Asia/Shanghai'}}
             type=raw,value={{date 'YYYY-MM-DD' tz='Asia/Shanghai'}}
