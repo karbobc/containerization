@@ -7,7 +7,7 @@ jobs:
   run-ci:
     uses: ./.github/workflows/ci.yml
     with:
-      name: yacd-meta
+      name: yesplaymusic
       s6: true
       build-args: |
         VUE_APP_NETEASE_API_URL=/api
