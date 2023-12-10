@@ -1,0 +1,14 @@
+name: YesPlayMusic CI
+
+on:
+  workflow_dispatch:
+
+jobs:
+  run-ci:
+    uses: ./.github/workflows/ci.yml
+    with:
+      name: yacd-meta
+      s6: true
+      build-args: |
+        VUE_APP_NETEASE_API_URL=/api
+    secrets: inherit

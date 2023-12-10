@@ -13,6 +13,9 @@ on:
         type: boolean
         default: false
 
+env:
+  S6_OVERLAY_VERSION: "3.1.6.2"
+
 jobs:
   build-for-linux:
     name: Build - ${{ matrix.job.name }}
@@ -90,6 +93,7 @@ jobs:
           platforms: ${{ matrix.job.docker_platform }}
           build-args: |
             S6_ARCH=${{ matrix.job.s6_platform }}
+            S6_OVERLAY_VERSION=${{ env.S6_OVERLAY_VERSION }}
             ${{ inputs.build-args }}
           push: true
           tags: ${{ steps.docker_meta.outputs.tags }}
