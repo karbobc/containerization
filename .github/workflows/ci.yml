@@ -133,7 +133,7 @@ jobs:
           password: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Create manifest list and push
-        uses: karbobc/docker-manifest-create-action@v1
+        uses: int128/docker-manifest-create-action@v1
         with:
           tags: ${{ steps.docker_meta.outputs.tags }}
           suffixes: |
