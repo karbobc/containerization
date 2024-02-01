@@ -71,6 +71,8 @@ RUN set -x \
     && rm -f /var/cache/apk/*
 
 EXPOSE 80 443
+VOLUME $NGINX_HTTP_CONF_PATH $NGINX_STREAM_CONF_PATH $NGINX_SSL_PATH
+VOLUME $NGINX_LOGS_PATH $LE_LOGS_PATH
 
 # run nginx in non deamon
 CMD ["nginx", "-g", "daemon off;"]
