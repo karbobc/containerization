@@ -2,13 +2,16 @@ name: Nginx CI
 
 on:
   workflow_dispatch:
+  push:
+    paths:
+      - .github/workflows/nginx.yml
+      - nginx/**
 
 jobs:
   run-ci:
     uses: ./.github/workflows/ci.yml
     with:
       name: nginx
-      s6: true
       build-args: |
         NGINX_IMAGE=${{ vars.NGINX_IMAGE }}
     secrets: inherit
