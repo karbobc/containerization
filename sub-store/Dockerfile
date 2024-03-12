@@ -36,6 +36,7 @@ ENV SUB_STORE_FRONTEND_PORT=3001
 ENV SUB_STORE_DATA_BASE_PATH=/app/data
 
 RUN set -x \
+    && apk update \
     && apk add --no-cache nodejs \
     && rm -f /var/cache/apk/*
 COPY --from=build /app/Sub-Store-Front-End/dist /app/frontend
