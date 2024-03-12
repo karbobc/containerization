@@ -19,13 +19,19 @@ FROM --platform=$TARGETPLATFORM alpine:latest
 LABEL maintainer="Karbob <karbobc@gmail.com>"
 
 ARG UID=10001
-RUN adduser \
-    --disabled-password \
-    --gecos "" \
-    --home "/app" \
-    --shell "/sbin/nologin" \
-    --uid "${UID}" \
-    sub-store
+RUN set -x \
+    && apk update \
+    && apk add --no-cache \
+        nodejs \
+    && rm -f /var/cache/apk/* \
+    && adduser \
+        --disabled-password \
+        --gecos "" \
+        --home "/app" \
+        --shell "/sbin/nologin" \
+        --uid "${UID}" \
+        sub-store
+
 USER sub-store
 WORKDIR /app
 
@@ -35,10 +41,6 @@ ENV SUB_STORE_FRONTEND_HOST=::
 ENV SUB_STORE_FRONTEND_PORT=3001
 ENV SUB_STORE_DATA_BASE_PATH=/app/data
 
-RUN set -x \
-    && apk update \
-    && apk add --no-cache nodejs \
-    && rm -f /var/cache/apk/*
 COPY --from=build /app/Sub-Store-Front-End/dist /app/frontend
 COPY --from=build /app/Sub-Store/backend/dist/sub-store.bundle.js /app/
 
