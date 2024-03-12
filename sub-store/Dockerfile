@@ -25,7 +25,7 @@ RUN adduser \
     --home "/app" \
     --shell "/sbin/nologin" \
     --uid "${UID}" \
-    sub-store \
+    sub-store
 USER sub-store
 WORKDIR /app
 
