@@ -48,7 +48,7 @@ ENV SUB_STORE_DATA_BASE_PATH=/app/data
 COPY --from=build /app/Sub-Store-Front-End/dist /app/frontend
 COPY --from=build /app/Sub-Store/backend/dist/sub-store.bundle.js /app/
 
-EXPOSE [3000, 8080]
+EXPOSE 3000 8080
 VOLUME /app/data
 
 CMD ["node", "/app/sub-store.bundle.js"]
