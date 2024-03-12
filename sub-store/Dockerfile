@@ -33,7 +33,9 @@ RUN set -x \
         --home "/app" \
         --shell "/sbin/nologin" \
         --uid "${UID}" \
-        sub-store
+        sub-store \
+    && mkdir /app/data \
+    && chown sub-store:sub-store /app/data
 
 USER sub-store
 WORKDIR /app
