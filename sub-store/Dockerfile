@@ -21,24 +21,12 @@ RUN set -x \
 FROM --platform=$TARGETPLATFORM alpine:latest
 LABEL maintainer="Karbob <karbobc@gmail.com>"
 
-ARG UID=10001
+WORKDIR /app
 RUN set -x \
     && apk update \
     && apk add --no-cache \
         nodejs \
-    && rm -f /var/cache/apk/* \
-    && adduser \
-        --disabled-password \
-        --gecos "" \
-        --home "/app" \
-        --shell "/sbin/nologin" \
-        --uid "${UID}" \
-        sub-store \
-    && mkdir /app/data \
-    && chown sub-store:sub-store /app/data
-
-USER sub-store
-WORKDIR /app
+    && rm -f /var/cache/apk/*
 
 ENV SUB_STORE_FRONTEND_PATH=/app/frontend
 ENV SUB_STORE_BACKEND_API_HOST=::
