@@ -9,6 +9,8 @@ RUN set -x \
     && sed -i 's|\${\(host.value\)}.*\(/download\)|\${\1.startsWith("http") ? \1 : `https://\${location.host}\${\1}`}\2|' \
         src/components/PreviewPanel.vue \
         src/components/SubListItem.vue \
+        src/components/FileListItem.vue \
+        src/components/ArtifactsListItem.vue \
     && npm install -g pnpm \
     && pnpm install \
     && npm run build \
