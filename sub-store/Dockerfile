@@ -6,7 +6,7 @@ RUN set -x \
     && git clone https://github.com/sub-store-org/Sub-Store-Front-End \
     && git clone https://github.com/sub-store-org/Sub-Store \
     && cd /app/Sub-Store-Front-End \
-    && sed -i 's|\${\(host.value\)}.*\(/download\)|\${\1.startsWith("http") ? \1 : `https://\${location.host}\${\1}`}\2|' \
+    && sed -i 's|\${\(host.value\)}\(.*\)|\${\1.startsWith("http") ? \1 : `https://\${location.host}\${\1}`}\2|' \
         src/components/PreviewPanel.vue \
         src/components/SubListItem.vue \
         src/components/FileListItem.vue \
