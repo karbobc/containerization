@@ -15,7 +15,7 @@ RUN set -x \
     && pnpm bundle
 
 # node server
-FROM --platform=$TARGETPLATFORM node:alpine
+FROM --platform=$TARGETPLATFORM alpine:latest
 LABEL maintainer="Karbob <karbobc@gmail.com>"
 
 ARG UID=10001
@@ -34,6 +34,10 @@ ENV SUB_STORE_BACKEND_API_HOST=::
 ENV SUB_STORE_FRONTEND_HOST=::
 ENV SUB_STORE_FRONTEND_PORT=3001
 ENV SUB_STORE_DATA_BASE_PATH=/app/data
+
+RUN set -x \
+    && apk add --no-cache nodejs \
+    && rm -f /var/cache/apk/*
 COPY --from=build /app/Sub-Store-Front-End/dist /app/frontend
 COPY --from=build /app/Sub-Store/backend/dist/sub-store.bundle.js /app/
 
