@@ -8,7 +8,7 @@ RUN set -x \
     && cd /app/Sub-Store-Front-End \
     && sed -i 's|\(apis.*\)\(url\)\(;\)|\1\2.startsWith("http") ? \2 : `https://\${window.location.host}\${\2}`\3|' \
         src/hooks/useHostAPI.ts \
-    && sed -i 's|\(apis.*push.*\)\(url\)|\1\2.startsWith("http") ? \2 : `https://\${window.location.host}\${\2}`|' \
+    && sed -i 's|\(apis.*push.*\)\(url\)|\1\2: \2.startsWith("http") ? \2 : `https://\${window.location.host}\${\2}`|' \
         src/hooks/useHostAPI.ts \
     && npm install -g pnpm \
     && pnpm install \
