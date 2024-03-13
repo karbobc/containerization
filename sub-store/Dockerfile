@@ -6,11 +6,10 @@ RUN set -x \
     && git clone https://github.com/sub-store-org/Sub-Store-Front-End \
     && git clone https://github.com/sub-store-org/Sub-Store \
     && cd /app/Sub-Store-Front-End \
-    && sed -i 's|\${\(host.value\)}\(.*\)|\${\1.startsWith("http") ? \1 : `https://\${location.host}\${\1}`}\2|' \
-        src/components/PreviewPanel.vue \
-        src/components/SubListItem.vue \
-        src/components/FileListItem.vue \
-        src/components/ArtifactsListItem.vue \
+    && sed -i 's|\(apis.*\)\(url\)\(;\)|\1\2.startsWith("http") ? \2 : `https://\${window.location.host}\${\2}`\3|' \
+        src/hooks/useHostAPI.ts \
+    && sed -i 's|\(apis.*push.*\)\(url\)|\1\2.startsWith("http") ? \2 : `https://\${window.location.host}\${\2}`|' \
+        src/hooks/useHostAPI.ts \
     && npm install -g pnpm \
     && pnpm install \
     && npm run build \
