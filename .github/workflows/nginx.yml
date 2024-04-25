@@ -12,6 +12,7 @@ jobs:
     uses: ./.github/workflows/ci.yml
     with:
       name: nginx
+      version: ${{ vars.NGINX_VERSION }}
       build-args: |
-        NGINX_IMAGE=${{ vars.NGINX_IMAGE }}
+        NGINX_IMAGE=nginx:${{ vars.NGINX_VERSION }}-alpine
     secrets: inherit
