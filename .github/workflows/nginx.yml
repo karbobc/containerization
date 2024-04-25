@@ -13,6 +13,7 @@ jobs:
     with:
       name: nginx
       version: ${{ vars.NGINX_VERSION }}
+      latest: ${{ vars.NGINX_LATEST }}
       build-args: |
         NGINX_IMAGE=nginx:${{ vars.NGINX_VERSION }}-alpine
     secrets: inherit
