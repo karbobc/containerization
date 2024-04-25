@@ -6,6 +6,9 @@ on:
       name:
         type: string
         required: true
+      version:
+        type: string
+        default: ""
       build-args:
         type: string
         default: ""
@@ -44,8 +47,8 @@ jobs:
             ${{ secrets.DOCKER_HUB_USERNAME }}/${{ inputs.name }}
             ghcr.io/${{ github.repository_owner }}/${{ inputs.name }}
           tags: |
-            type=schedule,pattern={{date 'YYYY-MM-DD' tz='Asia/Shanghai'}}
-            type=raw,value={{date 'YYYY-MM-DD' tz='Asia/Shanghai'}}
+            type=raw,value={{date 'YYYY-MM-DD' tz='Asia/Shanghai'}},enable=${{ inputs.version == '' }}
+            type=raw,value=${{ inputs.version }},enable=${{ inputs.version != '' }}
           # avoid overwriting the latest tag because metadata-action does not add a suffix to it
           flavor: |
             latest=false
