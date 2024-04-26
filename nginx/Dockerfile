@@ -1,9 +1,8 @@
-
 # image arguments
-ARG NGINX_IMAGE=nginx:alpine
+ARG NGINX_IMAGE
 
 # base image
-FROM --platform=$TARGETPLATFORM ${NGINX_IMAGE}
+FROM --platform=$TARGETPLATFORM ${NGINX_IMAGE:-nginx:alpine}
 
 # maintainer
 LABEL maintainer="Karbob <karbobc@gmail.com>"
