@@ -2,13 +2,22 @@ name: YesPlayMusic CI
 
 on:
   workflow_dispatch:
+  push:
+    paths:
+      - .github/workflows/yesplaymusic.yml
+      - yesplaymusic/**
 
 jobs:
   run-ci:
     uses: ./.github/workflows/ci.yml
     with:
       name: yesplaymusic
+      version: ${{ vars.YESPLAYMUSIC_VERSION }}
+      latest: ${{ vars.YESPLAYMUSIC_LATEST }}
       s6: true
       build-args: |
+        YESPLAYMUSIC_VERSION=${{ vars.YESPLAYMUSIC_VERSION }}
         VUE_APP_NETEASE_API_URL=/api
+        NODE_IMAGE=${{ vars.YESPLAYMUSIC_NODE_IMAGE }}
+        NGINX_IMAGE=${{ vars.YESPLAYMUSIC_NGINX_IMAGE }}
     secrets: inherit

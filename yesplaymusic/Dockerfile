@@ -1,22 +1,26 @@
 # build static files
-FROM --platform=$BUILDPLATFORM node:16-alpine AS build
+ARG NODE_IMAGE
+FROM --platform=$BUILDPLATFORM ${NODE_IMAGE:-node:16-alpine} AS build
+ARG YESPLAYMUSIC_VERSION
 ARG VUE_APP_NETEASE_API_URL=/api
 ENV VUE_APP_NETEASE_API_URL ${VUE_APP_NETEASE_API_URL}
 WORKDIR /app
 RUN set -x \
-    && apk add --no-cache \
+    && apk add --update --no-cache \
        python3 \
        make \
        g++ \
        git \
-    && git clone https://github.com/qier222/YesPlayMusic yesplaymusic \
+    && git clone https://github.com/qier222/YesPlayMusic.git yesplaymusic \
     && cd yesplaymusic \
-    && git checkout $(git describe --tags --abbrev=0) \
-    && yarn \
+    && [ -n $YESPLAYMUSIC_VERSION ] || git checkout $(git describe --tags --abbrev=0) \
+    && [ -z $YESPLAYMUSIC_VERSION ] || git checkout $YESPLAYMUSIC_VERSION \
+    && yarn install \
     && yarn build
 
 # s6 overlay
-FROM --platform=$TARGETPLATFORM nginx:alpine
+ARG NGINX_IMAGE
+FROM --platform=$TARGETPLATFORM ${NGINX_IMAGE:-nginx:alpine}
 ARG S6_ARCH
 ARG S6_OVERLAY_VERSION
 ADD https://github.com/just-containers/s6-overlay/releases/download/v${S6_OVERLAY_VERSION}/s6-overlay-noarch.tar.xz /tmp
@@ -26,7 +30,7 @@ RUN set -x \
     && tar -C / -Jxpf /tmp/s6-overlay-noarch.tar.xz \
     && tar -C / -Jxpf /tmp/s6-overlay-${S6_ARCH}.tar.xz \
     && rm -f /tmp/s6-overlay-*.tar.xz \
-    && apk add --no-cache \
+    && apk add --update --no-cache \
        libuv \
        nodejs \
        npm \
