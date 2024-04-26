@@ -13,7 +13,7 @@ jobs:
     with:
       name: yacd-meta
       version: ${{ vars.YACD_META_VERSION }}
-      latest: ${{ vars.YACD_META_LATESET }}
+      latest: ${{ vars.YACD_META_LATEST }}
       build-args: |
         YACD_META_VERSION=${{ vars.YACD_META_VERSION }}
         NODE_IMAGE=${{ vars.YACD_META_NODE_IMAGE }}
