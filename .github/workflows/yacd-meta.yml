@@ -2,6 +2,10 @@ name: Yacd-Meta CI
 
 on:
   workflow_dispatch:
+  push:
+    paths:
+      - .github/workflows/yacd-meta.yml
+      - yacd-meta/**
 
 jobs:
   run-ci:
