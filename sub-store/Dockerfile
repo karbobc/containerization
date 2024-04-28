@@ -9,7 +9,7 @@ RUN set -x \
     && git clone https://github.com/sub-store-org/Sub-Store-Front-End.git \
     && git clone https://github.com/sub-store-org/Sub-Store.git \
     && cd /app/Sub-Store-Front-End \
-    && [ -z $SUB_STORE_FRONTEND_VERSION ] || git checkout -q $SUB_STORE_FRONTEND_VERSION \
+    && [ -z ${SUB_STORE_FRONTEND_VERSION} ] || git checkout -q ${SUB_STORE_FRONTEND_VERSION} \
     && sed -i 's|\(apis.*\)\(url\)\(;\)|\1\2.startsWith("http") ? \2 : `https://\${window.location.host}\${\2}`\3|' \
         src/hooks/useHostAPI.ts \
     && sed -i 's|\(apis.*push.*\)\(url\)|\1\2: \2.startsWith("http") ? \2 : `https://\${window.location.host}\${\2}`|' \
@@ -18,7 +18,7 @@ RUN set -x \
     && pnpm install \
     && npm run build \
     && cd /app/Sub-Store/backend \
-    && [ -z $SUB_STORE_BACKEND_VERSION ] || git checkout $SUB_STORE_BACKEND_VERSION \
+    && [ -z ${SUB_STORE_BACKEND_VERSION} ] || git checkout -q ${SUB_STORE_BACKEND_VERSION} \
     && pnpm install \
     && pnpm build \
     && pnpm bundle
@@ -31,7 +31,6 @@ LABEL maintainer="Karbob <karbobc@gmail.com>"
 
 WORKDIR /app
 RUN set -x \
-    && apk update \
     && apk add --update --no-cache \
         nodejs
 
@@ -40,7 +39,7 @@ ENV SUB_STORE_FRONTEND_HOST=::
 ENV SUB_STORE_FRONTEND_PORT=8080
 ENV SUB_STORE_BACKEND_API_HOST=::
 ENV SUB_STORE_BACKEND_API_PORT=3000
-ENV SUB_STORE_BACKEND_CRON="0 * * * *"
+ENV SUB_STORE_BACKEND_CRON="0 * * * * ?"
 ENV SUB_STORE_DATA_BASE_PATH=/app/data
 
 COPY --from=build /app/Sub-Store-Front-End/dist ${SUB_STORE_FRONTEND_PATH}
