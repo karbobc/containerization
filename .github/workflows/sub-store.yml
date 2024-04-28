@@ -12,4 +12,11 @@ jobs:
     uses: ./.github/workflows/ci.yml
     with:
       name: sub-store
+      version: ${{ vars.SUB_STORE_VERSION }}
+      latest: ${{ vars.SUB_STORE_LATEST }}
+      build-args: |
+        NODE_IMAGE=${{ vars.SUB_STORE_NODE_IMAGE }}
+        ALPINE_IMAGE=${{ vars.SUB_STORE_ALPINE_IMAGE }}
+        SUB_STORE_FRONTEND_VERSION=${{ vars.SUB_STORE_FRONTEND_VERSION }}
+        SUB_STORE_BACKEND_VERSION=${{ vars.SUB_STORE_BACKEND_VERSION }}
     secrets: inherit
