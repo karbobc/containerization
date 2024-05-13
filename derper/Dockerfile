@@ -2,7 +2,6 @@
 ARG GOLANG_IMAGE
 FROM --platform=$BUILDPLATFORM ${GOLANG_IMAGE:-golang:alpine} AS build
 ARG DERPER_VERSION
-WORKDIR /build
 RUN set -x \
     && [ -z $DERPER_VERSION ] || go install tailscale.com/cmd/derper@${DERPER_VERSION} \
     && [ -n $DERPER_VERSION ] || go install tailscale.com/cmd/derper@main \
@@ -16,7 +15,7 @@ ENV TS_DERP_CERTMODE letsencrypt
 WORKDIR /app
 RUN set -x \
     && mkdir -p ${TS_DERP_CERTDIR}
-COPY --from=build /build/derper .
+COPY --from=build /go/bin/derper .
 COPY entrypoint.sh /entrypoint.sh
 
 # web ports
