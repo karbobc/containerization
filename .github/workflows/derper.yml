@@ -1,0 +1,21 @@
+name: Tailscale Derper CI
+
+on:
+  workflow_dispatch:
+  push:
+    paths:
+      - .github/workflows/derper.yml
+      - derper/**
+
+jobs:
+  run-ci:
+    uses: ./.github/workflows/ci.yml
+    with:
+      name: derper
+      version: ${{ vars.DERPER_VERSION }}
+      latest: ${{ vars.DERPER_LATEST }}
+      build-args: |
+        DERPER_VERSION=${{ vars.DERPER_VERSION }}
+        GOLANG_IMAGE=${{ vars.DERPER_NODE_IMAGE }}
+        ALPINE_IMAGE=${{ vars.DERPER_NGINX_IMAGE }}
+    secrets: inherit
