@@ -12,6 +12,7 @@ FROM --platform=$TARGETPLATFORM ${ALPINE_IMAGE:-alpine:latest}
 LABEL maintainer="Karbob <karbobc@gmail.com>"
 ENV TS_DERP_CERTDIR /app/certs
 ENV TS_DERP_CERTMODE letsencrypt
+ENV TS_DERP_VERIFY_CLIENTS false
 WORKDIR /app
 RUN set -x \
     && mkdir -p ${TS_DERP_CERTDIR}
