@@ -10,12 +10,12 @@ RUN set -x \
 ARG ALPINE_IMAGE
 FROM --platform=$TARGETPLATFORM ${ALPINE_IMAGE:-alpine:latest}
 LABEL maintainer="Karbob <karbobc@gmail.com>"
-ENV TS_DERP_CERTDIR /app/certs
 ENV TS_DERP_CERTMODE letsencrypt
-ENV TS_DERP_VERIFY_CLIENTS false
-ENV TS_DERP_HTTP_PORT -1
+ENV TS_DERP_CERTDIR /app/certs
 ENV TS_DERP_ADDR :443
 ENV TS_DERP_STUN_PORT 3478
+ENV TS_DERP_HTTP_PORT 80
+ENV TS_DERP_VERIFY_CLIENTS false
 WORKDIR /app
 RUN set -x \
     && mkdir -p ${TS_DERP_CERTDIR}
@@ -23,7 +23,7 @@ COPY --from=build /go/bin/derper .
 COPY entrypoint.sh /entrypoint.sh
 
 # web ports
-EXPOSE 443
+EXPOSE 80 443
 # stun
 EXPOSE 3478/udp
 # certs
