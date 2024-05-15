@@ -12,8 +12,6 @@ ARG ALPINE_IMAGE
 FROM --platform=$TARGETPLATFORM ${ALPINE_IMAGE:-alpine:latest}
 LABEL maintainer="Karbob <karbobc@gmail.com>"
 WORKDIR /app
-RUN set -x \
-    && apk add --update --no-cache curl
 COPY --from=build /go/bin/derper .
 
 # default web ports
