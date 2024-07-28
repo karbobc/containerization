@@ -1,0 +1,21 @@
+name: Meta Dashboard CI
+
+on:
+  workflow_dispatch:
+  push:
+    paths:
+      - .github/workflows/metad.yml
+      - metad/**
+
+jobs:
+  run-ci:
+    uses: ./.github/workflows/ci.yml
+    with:
+      name: metad
+      version: ${{ vars.METAD_VERSION }}
+      latest: ${{ vars.METAD_LATEST }}
+      build-args: |
+        METAD_VERSION=${{ vars.METAD_VERSION }}
+        NODE_IMAGE=${{ vars.METAD_NODE_IMAGE }}
+        CADDY_IMAGE=${{ vars.METAD_CADDY_IMAGE }}
+    secrets: inherit
