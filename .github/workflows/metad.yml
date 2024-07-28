@@ -17,5 +17,5 @@ jobs:
       build-args: |
         METAD_VERSION=${{ vars.METAD_VERSION }}
         NODE_IMAGE=${{ vars.METAD_NODE_IMAGE }}
-        CADDY_IMAGE=${{ vars.METAD_CADDY_IMAGE }}
+        NGINX_IMAGE=${{ vars.METAD_NGINX_IMAGE }}
     secrets: inherit

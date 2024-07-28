@@ -14,13 +14,16 @@ RUN set -x \
     && pnpm install \
     && pnpm build
 
-# caddy server
-ARG CADDY_IMAGE
-FROM --platform=$TARGETPLATFORM ${CADDY_IMAGE:-caddy:alpine}
-COPY --from=build /app/metad/dist/. .
-COPY --from=build /app/metad/Caddyfile .
+# nginx server
+ARG NGINX_IMAGE
+FROM --platform=$TARGETPLATFORM ${NGINX_IMAGE:-nginx:alpine}
+RUN set -x \
+    && rm -f /etc/nginx/conf.d/* \
+    && rm -f /usr/share/nginx/html/*
+COPY ./conf /etc/nginx/conf.d/
+COPY --from=build /app/metad/dist /usr/share/nginx/html/
 
 # web server port
 EXPOSE 80
 
-CMD ["caddy", "run"]
+CMD ["nginx", "-g", "daemon off;"]
