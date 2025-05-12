@@ -16,12 +16,11 @@ RUN set -x \
         src/hooks/useHostAPI.ts \
     && npm install -g pnpm \
     && pnpm install \
-    && npm run build \
+    && pnpm build \
     && cd /app/Sub-Store/backend \
     && [ -z ${SUB_STORE_BACKEND_VERSION} ] || git checkout -q ${SUB_STORE_BACKEND_VERSION} \
     && pnpm install \
-    && pnpm build \
-    && pnpm bundle
+    && pnpm bundle:esbuild
 
 # node server
 ARG ALPINE_IMAGE
