@@ -77,7 +77,7 @@ jobs:
 
       - name: Build and push
         if: inputs.s6 == false
-        uses: docker/build-push-action@v5
+        uses: docker/build-push-action@v7
         with:
           context: ${{ inputs.name }}
           platforms: ${{ matrix.job.docker_platform }}
@@ -90,7 +90,7 @@ jobs:
 
       - name: Build and push
         if: inputs.s6 != false
-        uses: docker/build-push-action@v5
+        uses: docker/build-push-action@v7
         with:
           context: ${{ inputs.name }}
           platforms: ${{ matrix.job.docker_platform }}
