@@ -12,7 +12,7 @@ RUN set -x \
     && npm install --force -g corepack \
     && corepack enable \
     && pnpm install --frozen-lockfile \
-    && pnpm --filter @metacubexd/ui build
+    && pnpm build:ui
 
 # nginx server
 ARG NGINX_IMAGE
