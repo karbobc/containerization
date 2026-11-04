@@ -9,6 +9,7 @@ RUN set -x \
     && cd metad \
     && [ -z $METAD_VERSION ] || git checkout $METAD_VERSION \
     && [ -n $METAD_VERSION ] || git checkout $(git describe --tags --abbrev=0) \
+    && npm install --force -g corepack \
     && corepack enable \
     && pnpm install --frozen-lockfile \
     && pnpm --filter @metacubexd/ui build
