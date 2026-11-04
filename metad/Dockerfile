@@ -9,11 +9,9 @@ RUN set -x \
     && cd metad \
     && [ -z $METAD_VERSION ] || git checkout $METAD_VERSION \
     && [ -n $METAD_VERSION ] || git checkout $(git describe --tags --abbrev=0) \
-    && npm install --force -g corepack \
     && corepack enable \
-    && corepack prepare pnpm@latest --activate \
-    && pnpm install \
-    && pnpm build
+    && pnpm install --frozen-lockfile \
+    && pnpm --filter @metacubexd/ui build
 
 # nginx server
 ARG NGINX_IMAGE
@@ -22,7 +20,7 @@ RUN set -x \
     && rm -f /etc/nginx/conf.d/* \
     && rm -f /usr/share/nginx/html/*
 COPY ./conf /etc/nginx/conf.d/
-COPY --from=build /app/metad/dist /usr/share/nginx/html/
+COPY --from=build /app/metad/packages/ui/.output/public/ /usr/share/nginx/html/
 
 # web server port
 EXPOSE 80
